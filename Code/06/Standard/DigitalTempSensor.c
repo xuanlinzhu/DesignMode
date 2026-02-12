@@ -24,7 +24,7 @@ static void digitalInit(Sensor* self) {
 
 static float digitalReadValue(Sensor* self) {
     DigitalTempSensor* sensor = (DigitalTempSensor*)self;
-    float noise = ((float)(rand() % 100) - 50.0f) / 100.0f;
+    float noise = ((float)(rand() % 100) - 50.0f) / 10.0f;
     sensor->lastValue = 22.0f + noise;
     return sensor->lastValue;
 }

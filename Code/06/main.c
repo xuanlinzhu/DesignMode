@@ -113,13 +113,13 @@ int main(void) {
     printf("  3. 切换版本只需改变参数\n");
     printf("  4. 新增版本无需修改现有代码\n");
     
-    runThermostatDemo(VERSION_BASIC);
+    // runThermostatDemo(VERSION_BASIC);
 
     
     // runThermostatDemo(VERSION_STANDARD);
 
     
-    // runThermostatDemo(VERSION_PRO);
+    runThermostatDemo(VERSION_PRO);
     
     printSeparator();
     SetConsoleTextAttribute(hConsole, 10);

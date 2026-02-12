@@ -21,10 +21,10 @@ static void ledShowValue(Display* self, float value, const char* unit) {
     const char* color;
     int colorCode;
     
-    if (value > 28.0f) {
+    if (value > 26.0f) {
         color = "红色(高温警告)";
         colorCode = 12;
-    } else if (value < 18.0f) {
+    } else if (value < 20.0f) {
         color = "蓝色(低温)";
         colorCode = 9;
     } else {

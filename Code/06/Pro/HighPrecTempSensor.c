@@ -25,7 +25,7 @@ static void highPrecInit(Sensor* self) {
 
 static float highPrecReadValue(Sensor* self) {
     HighPrecTempSensor* sensor = (HighPrecTempSensor*)self;
-    float noise = ((float)(rand() % 100) - 50.0f) / 1000.0f;
+    float noise = ((float)(rand() % 100) - 50.0f) / 10.0f;
     float value = 22.00f + noise + sensor->calibrationOffset;
     return value;
 }
