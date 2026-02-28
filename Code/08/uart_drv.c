@@ -2,11 +2,14 @@
 #include "bus.h"
 #include "cstd.h"
 
+/* 支持的 UART 实例上限（静态池实现） */
 #define MAX_UART_INSTANCES 8U
 
+/* 每个 UART 设备实例对应一份私有上下文 */
 static uart_priv_t uart_priv_pool[MAX_UART_INSTANCES];
 static device_t *uart_bound_devs[MAX_UART_INSTANCES];
 
+/* 为设备查找已绑定槽位，或分配新的空槽 */
 static int uart_find_or_alloc_slot(device_t *dev) {
     size_t i = 0U;
     size_t free_idx = MAX_UART_INSTANCES;
@@ -79,6 +82,7 @@ static const dev_ops_t uart_ops = {
     .ioctl = uart_ioctl
 };
 
+/* 工厂方法：解析 cfg，构造私有上下文，绑定 uart_ops */
 static int uart_probe(device_t *dev) {
     const uart_cfg_t *cfg = NULL;
     int slot = -1;
@@ -103,6 +107,7 @@ static int uart_probe(device_t *dev) {
     return 0;
 }
 
+/* UART 驱动对象：挂在 platform_bus 上 */
 driver_t uart_driver = {
     .name = "uart_driver",
     .compatible = "acme,uart",

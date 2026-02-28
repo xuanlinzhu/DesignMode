@@ -1,10 +1,13 @@
 #include "bus.h"
 #include "cstd.h"
 
+/* 逻辑总线：用于承载无共享物理介质的设备（如 UART） */
 bus_t platform_bus;
 
+/* 懒初始化标记，避免重复初始化 platform_bus */
 static int platform_bus_ready = 0;
 
+/* 若匹配成功则执行 probe 完成绑定 */
 static int probe_if_match(device_t *dev, driver_t *drv, bus_match_fn match) {
     if (dev == NULL || drv == NULL || match == NULL) {
         return -1;
@@ -24,6 +27,7 @@ void mutex_init(simple_mutex_t *lock) {
     }
 }
 
+/* 自旋等待式简化锁，仅用于教学演示 */
 void mutex_lock(simple_mutex_t *lock) {
     if (lock == NULL) {
         return;
@@ -52,6 +56,7 @@ void bus_init(bus_t *bus, const char *name, bus_match_fn match) {
     mutex_init(&bus->lock);
 }
 
+/* 以 compatible + 同一 bus 指针作为匹配规则 */
 int bus_match_compatible(const device_t *dev, const driver_t *drv) {
     if (dev == NULL || drv == NULL) {
         return 0;
@@ -94,6 +99,7 @@ static int bus_has_device(const bus_t *bus, const device_t *dev) {
     return 0;
 }
 
+/* 注册驱动后，尝试与已注册设备逐一匹配并 probe */
 int bus_register_driver(bus_t *bus, driver_t *drv) {
     size_t i = 0U;
 
@@ -119,6 +125,7 @@ int bus_register_driver(bus_t *bus, driver_t *drv) {
     return 0;
 }
 
+/* 注册设备后，尝试与已注册驱动逐一匹配并 probe */
 int bus_register_device(bus_t *bus, device_t *dev) {
     size_t i = 0U;
 
@@ -144,6 +151,7 @@ int bus_register_device(bus_t *bus, device_t *dev) {
     return 0;
 }
 
+/* 便捷路径：将设备绑定到 platform_bus 并完成匹配 */
 int bind_nobus_device(device_t *dev, driver_t *drivers[], size_t driver_count) {
     size_t i = 0U;
 

@@ -4,9 +4,11 @@
 #include <stddef.h>
 #include <stdint.h>
 
+/* 整帧缓冲区上限与负载上限 */
 #define FRAME_BUFFER_CAPACITY 256U
 #define MAX_PAYLOAD_CAPACITY 160U
 
+/* 构建状态机：约束构建步骤顺序 */
 typedef enum FrameBuildState {
     FRAME_STATE_INIT = 0,
     FRAME_STATE_PAYLOAD_READY,
@@ -17,11 +19,13 @@ typedef enum FrameBuildState {
     FRAME_STATE_CRC_READY
 } FrameBuildState;
 
+/* 最终产物：连续字节流 + 长度 */
 typedef struct FrameProduct {
     uint8_t bytes[FRAME_BUFFER_CAPACITY];
     size_t length;
 } FrameProduct;
 
+/* 构建输入：描述本次要生成的报文参数 */
 typedef struct BuildInput {
     uint8_t version;
     uint8_t message_type;
@@ -36,6 +40,7 @@ typedef struct FrameBuilder FrameBuilder;
 
 typedef int (*BuildStepFn)(FrameBuilder *, const BuildInput *);
 
+/* Builder：保存中间字段并绑定各构建步骤 */
 struct FrameBuilder {
     FrameBuildState state;
     uint8_t version;
@@ -62,10 +67,12 @@ struct FrameBuilder {
     BuildStepFn build_crc;
 };
 
+/* Director：统一调度构建顺序 */
 typedef struct FrameDirector {
     int (*construct_frame)(struct FrameDirector *, FrameBuilder *, const BuildInput *);
 } FrameDirector;
 
+/* 对外初始化与结果获取接口 */
 void init_v1_builder(FrameBuilder *builder);
 void init_secure_extended_builder(FrameBuilder *builder);
 void init_director(FrameDirector *director);

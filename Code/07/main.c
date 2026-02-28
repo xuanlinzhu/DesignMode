@@ -3,6 +3,7 @@
 
 #include "protocol_builder.h"
 
+/* 按十六进制打印构建结果 */
 static void print_hex_frame(const char *title, const FrameProduct *product) {
     size_t i = 0U;
     if (title == NULL || product == NULL) {
@@ -21,6 +22,7 @@ static void print_hex_frame(const char *title, const FrameProduct *product) {
     printf("\n");
 }
 
+/* 运行单个 Builder 用例并输出产物 */
 static int run_demo_case(const char *name, FrameBuilder *builder, const BuildInput *input) {
     FrameDirector director;
     const FrameProduct *product = NULL;
@@ -53,6 +55,7 @@ int main(void) {
     BuildInput basic_input;
     BuildInput secure_input;
 
+    /* V1 输入参数 */
     basic_input.version = 1U;
     basic_input.message_type = 0x11U;
     basic_input.device_id = 0x2AU;
@@ -61,6 +64,7 @@ int main(void) {
     basic_input.payload_data = payload1;
     basic_input.payload_len = (uint8_t)sizeof(payload1);
 
+    /* 安全扩展输入参数 */
     secure_input.version = 2U;
     secure_input.message_type = 0x31U;
     secure_input.device_id = 0x2AU;
@@ -69,6 +73,7 @@ int main(void) {
     secure_input.payload_data = payload2;
     secure_input.payload_len = (uint8_t)sizeof(payload2);
 
+    /* 初始化两类具体 Builder */
     init_v1_builder(&v1_builder);
     init_secure_extended_builder(&secure_builder);
 

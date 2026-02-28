@@ -1,5 +1,6 @@
 #include "dev.h"
 
+/* 统一设备入口：仅做空指针/能力检查，再分发给具体驱动实现 */
 int device_open(device_t *dev) {
     if (dev == NULL || dev->ops == NULL || dev->ops->open == NULL) {
         return -1;

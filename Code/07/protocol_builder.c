@@ -2,6 +2,7 @@
 
 #include <string.h>
 
+/* 追加写入产物缓冲区，包含容量保护 */
 static int append_bytes(FrameProduct *product, const uint8_t *data, size_t len) {
     if (product == NULL || data == NULL) {
         return -1;
@@ -14,6 +15,7 @@ static int append_bytes(FrameProduct *product, const uint8_t *data, size_t len) 
     return 0;
 }
 
+/* V1 版本使用的简单 XOR CRC8 */
 static uint8_t crc8_xor(const uint8_t *data, size_t len) {
     uint8_t crc = 0U;
     size_t i = 0U;
@@ -23,6 +25,7 @@ static uint8_t crc8_xor(const uint8_t *data, size_t len) {
     return crc;
 }
 
+/* 安全扩展版本使用的 CRC16-CCITT */
 static uint16_t crc16_ccitt(const uint8_t *data, size_t len) {
     uint16_t crc = 0xFFFFU;
     size_t i = 0U;
@@ -40,6 +43,7 @@ static uint16_t crc16_ccitt(const uint8_t *data, size_t len) {
     return crc;
 }
 
+/* 重置 builder 中间状态与缓存 */
 static int reset_common(FrameBuilder *builder, const BuildInput *input) {
     (void)input;
     if (builder == NULL) {
@@ -63,6 +67,7 @@ static int reset_common(FrameBuilder *builder, const BuildInput *input) {
     return 0;
 }
 
+/* 构建 payload 段 */
 static int build_payload_common(FrameBuilder *builder, const BuildInput *input) {
     if (builder == NULL || input == NULL || input->payload_data == NULL) {
         return -1;
@@ -79,6 +84,7 @@ static int build_payload_common(FrameBuilder *builder, const BuildInput *input) 
     return 0;
 }
 
+/* 构建子头，包含 payload 长度与序号 */
 static int build_sub_header_common(FrameBuilder *builder, const BuildInput *input) {
     if (builder == NULL || input == NULL) {
         return -1;
@@ -96,6 +102,7 @@ static int build_sub_header_common(FrameBuilder *builder, const BuildInput *inpu
     return 0;
 }
 
+/* 无安全块版本 */
 static int build_security_none(FrameBuilder *builder, const BuildInput *input) {
     (void)input;
     if (builder == NULL) {
@@ -109,6 +116,7 @@ static int build_security_none(FrameBuilder *builder, const BuildInput *input) {
     return 0;
 }
 
+/* 生成简化签名安全块 */
 static int build_security_signature(FrameBuilder *builder, const BuildInput *input) {
     uint8_t checksum = 0U;
     size_t i = 0U;
@@ -132,6 +140,7 @@ static int build_security_signature(FrameBuilder *builder, const BuildInput *inp
     return 0;
 }
 
+/* 无扩展头版本 */
 static int build_ext_none(FrameBuilder *builder, const BuildInput *input) {
     (void)input;
     if (builder == NULL) {
@@ -145,6 +154,7 @@ static int build_ext_none(FrameBuilder *builder, const BuildInput *input) {
     return 0;
 }
 
+/* 标准扩展头版本 */
 static int build_ext_standard(FrameBuilder *builder, const BuildInput *input) {
     if (builder == NULL || input == NULL) {
         return -1;
@@ -161,6 +171,7 @@ static int build_ext_standard(FrameBuilder *builder, const BuildInput *input) {
     return 0;
 }
 
+/* 构建主头，填入类型/标志/总长度等 */
 static int build_header_common(FrameBuilder *builder, const BuildInput *input) {
     uint16_t total_without_crc = 0U;
     if (builder == NULL || input == NULL) {
@@ -185,6 +196,7 @@ static int build_header_common(FrameBuilder *builder, const BuildInput *input) {
     return 0;
 }
 
+/* 打包全部字段并追加 CRC8 */
 static int build_crc8_and_pack(FrameBuilder *builder, const BuildInput *input) {
     uint8_t c = 0U;
     int rc = 0;
@@ -229,6 +241,7 @@ static int build_crc8_and_pack(FrameBuilder *builder, const BuildInput *input) {
     return 0;
 }
 
+/* 打包全部字段并追加 CRC16 */
 static int build_crc16_and_pack(FrameBuilder *builder, const BuildInput *input) {
     uint16_t c = 0U;
     int rc = 0;
@@ -274,6 +287,7 @@ static int build_crc16_and_pack(FrameBuilder *builder, const BuildInput *input) 
     return 0;
 }
 
+/* Director 固定构建顺序 */
 static int director_construct(struct FrameDirector *director, FrameBuilder *builder, const BuildInput *input) {
     (void)director;
     if (builder == NULL || input == NULL) {
@@ -303,6 +317,7 @@ static int director_construct(struct FrameDirector *director, FrameBuilder *buil
     return 0;
 }
 
+/* 初始化 V1 builder：无安全块、无扩展头、CRC8 */
 void init_v1_builder(FrameBuilder *builder) {
     if (builder == NULL) {
         return;
@@ -318,6 +333,7 @@ void init_v1_builder(FrameBuilder *builder) {
     builder->build_crc = build_crc8_and_pack;
 }
 
+/* 初始化安全扩展 builder：有安全块、有扩展头、CRC16 */
 void init_secure_extended_builder(FrameBuilder *builder) {
     if (builder == NULL) {
         return;

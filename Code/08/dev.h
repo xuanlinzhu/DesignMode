@@ -12,6 +12,7 @@ typedef ptrdiff_t ssize_t;
 
 struct device;
 
+/* 设备统一操作抽象：具体行为由驱动在 probe 阶段绑定 */
 typedef struct dev_ops {
     int (*open)(struct device *dev);
     int (*close)(struct device *dev);
@@ -22,6 +23,7 @@ typedef struct dev_ops {
 
 typedef struct bus bus_t;
 
+/* 设备对象：描述实例身份、绑定关系与私有上下文 */
 typedef struct device {
     const char *name;
     const char *compatible;

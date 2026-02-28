@@ -2,9 +2,11 @@
 #include "bus.h"
 #include "cstd.h"
 
+/* SPI 总线级操作：配置与传输 */
 static int spi_bus_configure(bus_t *bus, device_t *dev);
 static int spi_bus_xfer(bus_t *bus, device_t *dev, const void *tx, void *rx, size_t len);
 
+/* 挂到 bus->ops 的 SPI 能力集合 */
 static const bus_ops_t spi_bus_ops = {
     .configure = spi_bus_configure,
     .xfer = spi_bus_xfer
@@ -21,6 +23,7 @@ static int ensure_spi_bus_ops(bus_t *bus) {
     return 0;
 }
 
+/* 根据设备私有参数配置一次事务上下文 */
 static int spi_bus_configure(bus_t *bus, device_t *dev) {
     const spi_priv_t *priv = NULL;
 
@@ -38,6 +41,7 @@ static int spi_bus_configure(bus_t *bus, device_t *dev) {
     return 0;
 }
 
+/* SPI 统一传输入口：内部处理互斥与读写分支 */
 static int spi_bus_xfer(bus_t *bus, device_t *dev, const void *tx, void *rx, size_t len) {
     const spi_priv_t *priv = NULL;
 

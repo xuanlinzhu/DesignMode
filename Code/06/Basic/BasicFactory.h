@@ -3,6 +3,7 @@
 
 #include "../factory/AbstractFactory.h"
 
+/* Basic 版本模块创建器集合 */
 extern ModuleCreators BasicModuleCreators;
 
 #endif

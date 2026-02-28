@@ -1,10 +1,13 @@
 #include "drv.h"
 
+/* 支持的 flash 设备实例上限（静态池实现，无动态分配） */
 #define MAX_SPI_FLASH_INSTANCES 8U
 
+/* 每个设备实例对应一份私有上下文 */
 static spi_priv_t spi_flash_priv_pool[MAX_SPI_FLASH_INSTANCES];
 static device_t *spi_flash_bound_devs[MAX_SPI_FLASH_INSTANCES];
 
+/* 为设备查找已绑定槽位，或分配新的空槽 */
 static int spi_flash_find_or_alloc_slot(device_t *dev) {
     size_t i = 0U;
     size_t free_idx = MAX_SPI_FLASH_INSTANCES;
@@ -26,6 +29,7 @@ static int spi_flash_find_or_alloc_slot(device_t *dev) {
     return (int)free_idx;
 }
 
+/* 工厂方法：解析 cfg，构造私有上下文，绑定 ops */
 static int spi_flash_probe(device_t *dev) {
     const spi_cfg_t *cfg = NULL;
     int slot = -1;
@@ -51,6 +55,7 @@ static int spi_flash_probe(device_t *dev) {
     return 0;
 }
 
+/* SPI Flash 驱动对象 */
 driver_t spi_flash_driver = {
     .name = "spi_flash_driver",
     .compatible = "acme,spi-flash",

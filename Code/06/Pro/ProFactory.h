@@ -3,6 +3,7 @@
 
 #include "../factory/AbstractFactory.h"
 
+/* Pro 版本模块创建器集合 */
 extern ModuleCreators ProModuleCreators;
 
 #endif
