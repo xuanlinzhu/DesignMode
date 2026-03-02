@@ -69,15 +69,11 @@ int main(void)
     printf("all tasks created\n");
 
     sleep(3);
-    printf("delete worker task from main\n");
-    xTaskDelete(worker_handle);
-
     printf("destroy telemetry handle after task exit\n");
     xTaskDelete(telemetry_handle);
 
-    printf("delete self-delete task handle\n");
-    xTaskDelete(self_handle);
-
     printf("demo done\n");
+
+    sleep(60);
     return 0;
 }
