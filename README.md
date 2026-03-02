@@ -1,4 +1,4 @@
-![封面](.\Source\pic\封面.png)
+![封面](./Source/pic/main-cover.png)
 
 # 🚀 嵌入式视角的 GoF 设计模式实践
 
