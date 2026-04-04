@@ -33,49 +33,27 @@
 
 ------
 
-# 📚 GoF 23 种设计模式总览
+# 🧭 导航入口（Reference）
 
-## 一、创建型模式（Creational Patterns · 5）
+如果你希望按 **嵌入式问题场景**、**GoF 分类**、或 **模式组合** 来检索讲义与代码示例，可以从 `Reference/` 下的导航页进入：
 
-| 英文名称         | 中文名称                 |
-| ---------------- | ------------------------ |
-| Abstract Factory | 抽象工厂模式             |
-| Builder          | 生成器模式（建造者模式） |
-| Factory Method   | 工厂方法模式             |
-| Prototype        | 原型模式                 |
-| Singleton        | 单例模式                 |
+- [导航首页](./Reference/nav.md)
+- [开始导航](./Reference/start.md)
+- [按 GOF 分类查找](./Reference/by_category.md)
+- [按嵌入式场景查找](./Reference/by_scene.md)
+- [常见模式组合](./Reference/combos.md)
+- [常见问题](./Reference/faq.md)
 
-------
+这些导航页会继续跳转到：
 
-## 二、结构型模式（Structural Patterns · 7）
+- `Source/` 下对应设计模式讲义
+- `Code/xx/设计说明.md` 下对应工程实现说明
 
-| 英文名称  | 中文名称             |
-| --------- | -------------------- |
-| Adapter   | 适配器模式           |
-| Bridge    | 桥接模式             |
-| Composite | 组合模式             |
-| Decorator | 装饰模式             |
-| Facade    | 外观模式（门面模式） |
-| Flyweight | 享元模式             |
-| Proxy     | 代理模式             |
+推荐用法：
 
-------
-
-## 三、行为型模式（Behavioral Patterns · 11）
-
-| 英文名称                | 中文名称     |
-| ----------------------- | ------------ |
-| Chain of Responsibility | 责任链模式   |
-| Command                 | 命令模式     |
-| Interpreter             | 解释器模式   |
-| Iterator                | 迭代器模式   |
-| Mediator                | 中介者模式   |
-| Memento                 | 备忘录模式   |
-| Observer                | 观察者模式   |
-| State                   | 状态模式     |
-| Strategy                | 策略模式     |
-| Template Method         | 模板方法模式 |
-| Visitor                 | 访问者模式   |
+- 已经知道模式类别：从“按 GOF 分类查找”进入
+- 已经遇到工程问题：从“按嵌入式场景查找”进入
+- 想快速完成模式选型：从“常见模式组合”进入
 
 # 🗂 仓库结构
 
