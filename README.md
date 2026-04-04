@@ -38,11 +38,6 @@
 如果你希望按 **嵌入式问题场景**、**GoF 分类**、或 **模式组合** 来检索讲义与代码示例，可以从 `Reference/` 下的导航页进入：
 
 - [导航首页](./Reference/nav.md)
-- [开始导航](./Reference/start.md)
-- [按 GOF 分类查找](./Reference/by_category.md)
-- [按嵌入式场景查找](./Reference/by_scene.md)
-- [常见模式组合](./Reference/combos.md)
-- [常见问题](./Reference/faq.md)
 
 这些导航页会继续跳转到：
 
